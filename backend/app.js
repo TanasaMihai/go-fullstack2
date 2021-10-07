@@ -1,7 +1,14 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://Mihai:mihai@cluster0.dtd6l.mongodb.net/Cluster0?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('You are lucky!  Today YOU ARE CONNECTED ... YOU THE MANGOOSE !'))
+  .catch(() => console.log('SORRY YOUR CONNECTION IS BLOWN !'));
+
+
 
 
 app.use((req, res, next) => {
