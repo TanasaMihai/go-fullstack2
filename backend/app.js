@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+
+const Thing = require ('./models/Things');
+
 mongoose.connect('mongodb+srv://Mihai:mihai@cluster0.dtd6l.mongodb.net/Cluster0?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('You are lucky!  Today YOU ARE CONNECTED ... YOU THE MANGOOSE !'))
+  .then(() => console.log('You are lucky!  Today YOU ARE CONNECTED YOU THE MANGOOSE !'))
   .catch(() => console.log('SORRY YOUR CONNECTION IS BLOWN !'));
 
 
@@ -20,10 +23,13 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());  
 app.post('/api/stuff', (req, res, next) => {
-console.log(req.body);
-res.status(201).json({
-  message:'Your new sale object was created successfully!!!'
-})
+  delete req.body._id
+  const thing = new Thing({
+    ...req.thing
+  });
+thing.save()
+.then(() => res.status(201).json({ message: 'New item is registered successfully!'}))
+.catch(error => res.status(400).json({ error }));
   });
 
 
